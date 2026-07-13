@@ -215,9 +215,25 @@
                     let statusText = log.event_message || (log.online ? `Online (${log.players} players)` : 'Offline');
                     const dotColor = log.online ? 'var(--accent)' : '#f87171';
                     
+                    let displayTime = log.timestamp;
+                    if (displayTime && displayTime.endsWith(" UTC")) {
+                        let dateStr = displayTime.replace(" UTC", "Z").replace(" ", "T"); 
+                        let d = new Date(dateStr);
+                        if (!isNaN(d.getTime())) {
+                            let offset7 = d.getTime() + (7 * 60 * 60 * 1000);
+                            let d7 = new Date(offset7);
+                            let yyyy = d7.getUTCFullYear();
+                            let mm = String(d7.getUTCMonth() + 1).padStart(2, '0');
+                            let dd = String(d7.getUTCDate()).padStart(2, '0');
+                            let hh = String(d7.getUTCHours()).padStart(2, '0');
+                            let min = String(d7.getUTCMinutes()).padStart(2, '0');
+                            displayTime = `${yyyy}-${mm}-${dd} ${hh}:${min} (UTC+7)`;
+                        }
+                    }
+
                     html += `
                         <div class="log-item">
-                            <span class="log-time">${log.timestamp}</span>
+                            <span class="log-time">${displayTime}</span>
                             <div class="status-badge ${statusClass}">
                                 <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${dotColor}; box-shadow: 0 0 10px ${dotColor}"></span>
                                 ${statusText}
