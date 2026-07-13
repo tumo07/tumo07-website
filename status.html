@@ -17,15 +17,19 @@
             --accent-blue: #60a5fa;
             --text-main: #ffffff;
             --text-muted: rgba(255, 255, 255, 0.6);
-            --glass-bg: rgba(15, 15, 20, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-blur: blur(40px) saturate(180%);
+            --glass-bg: rgba(15, 15, 20, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-blur: blur(60px) saturate(200%);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
             background-color: var(--bg-color);
+            background-image: url('assets/hero_bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
@@ -34,10 +38,7 @@
         .ambient-bg {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             z-index: -2;
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(94, 234, 145, 0.05), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(96, 165, 250, 0.05), transparent 50%);
-            animation: pulseBg 20s infinite alternate linear;
+            background: linear-gradient(180deg, rgba(3,3,5,0.4) 0%, rgba(3,3,5,0.8) 100%);
         }
         @keyframes pulseBg {
             0% { transform: scale(1); opacity: 0.8; }
@@ -99,9 +100,11 @@
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 60px rgba(0,0,0,0.6);
         }
         .log-item {
             display: flex;

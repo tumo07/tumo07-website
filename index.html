@@ -16,27 +16,28 @@
             --accent-blue: #60a5fa;
             --text-main: #ffffff;
             --text-muted: rgba(255, 255, 255, 0.6);
-            --glass-bg: rgba(15, 15, 20, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --glass-blur: blur(40px) saturate(180%);
+            --glass-bg: rgba(15, 15, 20, 0.15); /* More transparent for liquid glass */
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-blur: blur(60px) saturate(200%);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             color: var(--text-main);
             background-color: var(--bg-color);
+            background-image: url('assets/hero_bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Ambient Mesh Gradient Background */
+        /* Dark overlay to make text readable */
         .ambient-bg {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             z-index: -2;
-            background: 
-                radial-gradient(circle at 15% 50%, rgba(94, 234, 145, 0.08), transparent 50%),
-                radial-gradient(circle at 85% 30%, rgba(96, 165, 250, 0.08), transparent 50%);
-            animation: pulseBg 20s infinite alternate linear;
+            background: linear-gradient(180deg, rgba(3,3,5,0.4) 0%, rgba(3,3,5,0.8) 100%);
         }
         @keyframes pulseBg {
             0% { transform: scale(1); opacity: 0.8; }
@@ -138,12 +139,14 @@
             backdrop-filter: var(--glass-blur);
             -webkit-backdrop-filter: var(--glass-blur);
             border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 20px 48px;
+            border-top: 1px solid rgba(255, 255, 255, 0.3); /* Stronger top highlight for liquid glass */
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            padding: 48px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 20px 40px rgba(0,0,0,0.5);
-            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 60px rgba(0,0,0,0.6);
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.5s;
             overflow: hidden;
             group: ipBtn;
         }
@@ -180,14 +183,18 @@
             width: 100%;
         }
         .action-card {
-            background: linear-gradient(135deg, rgba(20, 20, 25, 0.6) 0%, rgba(10, 10, 15, 0.8) 100%);
-            border: 1px solid rgba(255,255,255,0.05);
+            background: rgba(10, 10, 15, 0.15); /* More transparent */
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 32px;
             text-decoration: none; color: #fff;
             display: flex; align-items: center; justify-content: space-between;
             transition: all 0.4s ease;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 15px 30px rgba(0,0,0,0.5);
             position: relative; overflow: hidden;
         }
         .action-card::after {
@@ -209,8 +216,6 @@
         /* Updates Section */
         .updates-section {
             padding: 120px 10%;
-            background: #020203;
-            border-top: 1px solid rgba(255,255,255,0.03);
             position: relative;
         }
         .updates-header { font-family: 'Outfit', sans-serif; font-size: 48px; font-weight: 900; margin-bottom: 64px; text-align: center; letter-spacing: -1px; }
@@ -220,8 +225,13 @@
             max-width: 1200px; margin: 0 auto;
         }
         .update-card {
-            background: rgba(15, 15, 20, 0.5);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(15, 15, 20, 0.15); /* Transparent glass */
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 20px 40px rgba(0,0,0,0.5);
             border-radius: 24px; padding: 40px;
             transition: all 0.3s;
         }
@@ -282,12 +292,12 @@
         </div>
 
         <h1 class="hero-title">BEYOND VANILLA.</h1>
-        <p class="hero-subtitle">A meticulously crafted, heavily modded Fabric experience built for performance, stability, and true scale.</p>
+        <p class="hero-subtitle">A carefully crafted, highly optimized Fabric server built for huge builds and a smooth multiplayer experience.</p>
 
         <div class="ip-copy-wrapper">
-            <div class="copy-toast" id="copy-toast">IP Copied to Clipboard!</div>
+            <div class="copy-toast" id="copy-toast">IP Copied!</div>
             <div class="ip-copy-btn" onclick="copyIP()">
-                <span class="ip-label">Server Connection IP</span>
+                <span class="ip-label">Click to copy IP</span>
                 <span class="ip-value">tumo07.io.vn</span>
             </div>
         </div>
@@ -310,29 +320,29 @@
             
             <div class="update-card">
                 <span class="update-tag infra">v26.1.3 - INFRASTRUCTURE</span>
-                <h3 class="update-title">Dual-Source Status</h3>
-                <p class="update-desc">Firebase now serves as the sole authoritative source for server state via a dedicated real-time status node, delivering instant updates with near-zero latency. API polling used purely for player enrichment.</p>
+                <h3 class="update-title">Instant Live Status</h3>
+                <p class="update-desc">We switched to Firebase for our live server status. The website now syncs perfectly with the server in real-time, so you always know when we're online.</p>
                 <span class="update-date">2026-07-14</span>
             </div>
 
             <div class="update-card">
                 <span class="update-tag infra">v26.1.2 - INFRASTRUCTURE</span>
-                <h3 class="update-title">Firebase Telemetry</h3>
-                <p class="update-desc">Migrated the server telemetry pipeline to Google Firebase Realtime Database. Improved dashboard synchronization to true sub-second latency.</p>
+                <h3 class="update-title">Firebase Upgrade</h3>
+                <p class="update-desc">Upgraded the backend database for faster status logs and less polling delay.</p>
                 <span class="update-date">2026-07-13</span>
             </div>
 
             <div class="update-card">
                 <span class="update-tag system">v26.1.1 - SYSTEM</span>
-                <h3 class="update-title">Diagnostic Core</h3>
-                <p class="update-desc">Integrated interactive maintenance hooks into the local hardware watchdog script. Administrators can now securely bypass the crash reboot loop.</p>
+                <h3 class="update-title">Admin Maintenance Tools</h3>
+                <p class="update-desc">Added new hooks to safely reboot the server during maintenance without triggering the crash auto-reboot loops.</p>
                 <span class="update-date">2026-07-13</span>
             </div>
 
             <div class="update-card">
                 <span class="update-tag design">v26.1.0 - DESIGN</span>
-                <h3 class="update-title">AAA Frontend Overhaul</h3>
-                <p class="update-desc">Deployed the v2 website overhaul. Upgraded frontend architecture with cinematic rendering, pure liquid glassmorphism, and instantaneous status checks.</p>
+                <h3 class="update-title">Website Redesign</h3>
+                <p class="update-desc">Complete website visual overhaul! We added a new transparent glass theme, better live status checking, and easier ways to copy the IP.</p>
                 <span class="update-date">2026-07-13</span>
             </div>
 
