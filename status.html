@@ -210,24 +210,28 @@
                 }
                 
                 let html = '';
-                logs.forEach(log => {
+                logs.reverse().forEach(log => {
                     const statusClass = log.online ? 'status-online' : 'status-offline';
                     let statusText = log.event_message || (log.online ? `Online (${log.players} players)` : 'Offline');
                     const dotColor = log.online ? 'var(--accent)' : '#f87171';
                     
                     let displayTime = log.timestamp;
-                    if (displayTime && displayTime.endsWith(" UTC")) {
-                        let dateStr = displayTime.replace(" UTC", "Z").replace(" ", "T"); 
-                        let d = new Date(dateStr);
-                        if (!isNaN(d.getTime())) {
-                            let offset7 = d.getTime() + (7 * 60 * 60 * 1000);
-                            let d7 = new Date(offset7);
-                            let yyyy = d7.getUTCFullYear();
-                            let mm = String(d7.getUTCMonth() + 1).padStart(2, '0');
-                            let dd = String(d7.getUTCDate()).padStart(2, '0');
-                            let hh = String(d7.getUTCHours()).padStart(2, '0');
-                            let min = String(d7.getUTCMinutes()).padStart(2, '0');
-                            displayTime = `${yyyy}-${mm}-${dd} ${hh}:${min} (UTC+7)`;
+                    if (displayTime) {
+                        // More robust parsing: find "YYYY-MM-DD HH:MM" and assume UTC
+                        let match = displayTime.match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})/);
+                        if (match) {
+                            let dateStr = `${match[1]}T${match[2]}:00Z`;
+                            let d = new Date(dateStr);
+                            if (!isNaN(d.getTime())) {
+                                let offset7 = d.getTime() + (7 * 60 * 60 * 1000);
+                                let d7 = new Date(offset7);
+                                let yyyy = d7.getUTCFullYear();
+                                let mm = String(d7.getUTCMonth() + 1).padStart(2, '0');
+                                let dd = String(d7.getUTCDate()).padStart(2, '0');
+                                let hh = String(d7.getUTCHours()).padStart(2, '0');
+                                let min = String(d7.getUTCMinutes()).padStart(2, '0');
+                                displayTime = `${yyyy}-${mm}-${dd} ${hh}:${min} (UTC+7)`;
+                            }
                         }
                     }
 
