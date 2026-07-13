@@ -197,9 +197,20 @@
         .action-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.3s; }
         .action-card:hover .action-icon { background: #fff; color: #000; transform: scale(1.1) rotate(-10deg); }
 
-        /* Updates Section */
-        .updates-section {
-            padding: 120px 10%;
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 5%;
             position: relative;
         }
         .updates-header { font-family: 'Outfit', sans-serif; font-size: 48px; font-weight: 900; margin-bottom: 64px; text-align: center; letter-spacing: -1px; }
@@ -243,9 +254,10 @@
         .footer-logo { font-family: 'Outfit', sans-serif; font-weight: 800; color: #fff; font-size: 18px; }
 
         @media (max-width: 900px) {
-            nav { flex-direction: column; gap: 16px; padding: 20px 5%; }
+            nav { position: absolute; flex-direction: column; gap: 16px; padding: 20px 5%; }
             .nav-links { flex-wrap: wrap; justify-content: center; gap: 16px; width: 100%; }
             .social-links { border-left: none; padding-left: 0; margin-left: 0; width: 100%; justify-content: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; margin-top: 8px; }
+            .hero { padding-top: 180px; }
             .hero-title { font-size: 60px; }
             .actions-grid { grid-template-columns: 1fr; }
             .ip-copy-btn { padding: 16px 32px; }
@@ -270,17 +282,17 @@
     </nav>
 
     <div class="hero">
-        <div class="status-pill-container">
+        <div class="status-pill-container reveal active">
             <div class="status-pill" id="status-pill">
                 <div class="pulse-dot" id="status-dot"></div>
                 <span id="status-text">Connecting to telemetry...</span>
             </div>
         </div>
 
-        <h1 class="hero-title">BEYOND VANILLA.</h1>
-        <p class="hero-subtitle">A carefully crafted, highly optimized Fabric server built for huge builds and a smooth multiplayer experience.</p>
+        <h1 class="hero-title reveal active">BEYOND VANILLA.</h1>
+        <p class="hero-subtitle reveal">A carefully crafted, highly optimized Fabric server built for huge builds and a smooth multiplayer experience.</p>
 
-        <div class="ip-copy-wrapper">
+        <div class="ip-copy-wrapper reveal">
             <div class="copy-toast" id="copy-toast">IP Copied!</div>
             <div class="ip-copy-btn" onclick="copyIP()">
                 <span class="ip-label">Click to copy IP</span>
@@ -300,8 +312,33 @@
         </div>
     </div>
 
-    <div class="updates-section">
-        <h2 class="updates-header">Patch Notes</h2>
+    <section class="features">
+        <div class="section-header reveal">
+            <h2>The Experience</h2>
+            <p>Built from the ground up to be the ultimate multiplayer environment.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card reveal">
+                <h3>Blazing Fast</h3>
+                <p>Powered by C2ME and FerriteCore, our multi-threaded engine handles Elytra flying and massive redstone machines with zero tick drops.</p>
+            </div>
+            <div class="feature-card reveal" style="transition-delay: 0.1s;">
+                <h3>Anti-Xray & Security</h3>
+                <p>Engineered with GrimAC and active network monitoring to guarantee a perfectly fair, vanilla economy for all players.</p>
+            </div>
+            <div class="feature-card reveal" style="transition-delay: 0.2s;">
+                <h3>Live Web Map</h3>
+                <p>View the world in real-time, track player movements, and plan your next massive build directly from your browser.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="patch-notes-section">
+        <div class="section-header reveal">
+            <h2>Live Status</h2>
+            <p>Server telemetry perfectly synced and instant.</p>
+        </div>
+        <div class="patch-notes-container reveal">
         <div class="update-grid">
             
             <div class="update-card">
@@ -334,6 +371,7 @@
 
         </div>
     </div>
+    </section>
 
     <footer>
         <div>&copy; 2026 TUMO07 Server. All rights reserved.</div>
@@ -406,6 +444,27 @@
         }
         checkServerStatus();
         setInterval(checkServerStatus, 15000);
+
+        // Scroll Reveal Observer
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOptions = {
+            threshold: 0.15,
+            rootMargin: "0px 0px -50px 0px"
+        };
+        const revealObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target);
+            });
+        }, revealOptions);
+        
+        revealElements.forEach(el => {
+            // Hero elements load immediately without scroll
+            if (!el.classList.contains('active')) {
+                revealObserver.observe(el);
+            }
+        });
     </script>
 </body>
 </html>
