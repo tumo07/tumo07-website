@@ -194,7 +194,17 @@
                 }
                 
                 let html = '';
-                logs.reverse().forEach(log => {
+                
+                // Ensure array is sorted newest-first
+                logs.sort((a, b) => {
+                    let matchA = a.timestamp ? a.timestamp.match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})/) : null;
+                    let matchB = b.timestamp ? b.timestamp.match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})/) : null;
+                    let timeA = matchA ? new Date(`${matchA[1]}T${matchA[2]}:00Z`).getTime() : 0;
+                    let timeB = matchB ? new Date(`${matchB[1]}T${matchB[2]}:00Z`).getTime() : 0;
+                    return timeB - timeA; // Descending (newest on top)
+                });
+
+                logs.forEach(log => {
                     const statusClass = log.online ? 'status-online' : 'status-offline';
                     let statusText = log.event_message || (log.online ? `Online (${log.players} players)` : 'Offline');
                     const dotColor = log.online ? 'var(--accent)' : '#f87171';
