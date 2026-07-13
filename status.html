@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Status Log — TUMO07</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(10, 10, 15, 0.4);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(50px) saturate(200%);
+            --accent: #5eea91;
+            --accent-red: #f87171;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: #000;
+            overflow-x: hidden;
+            background-image: url('assets/hero_bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.9) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            padding: 32px 64px;
+            display: flex; justify-content: space-between; align-items: center;
+            background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, transparent 100%);
+        }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; transition: 0.3s; }
+        .nav-links a:hover { opacity: 1; text-shadow: 0 0 15px rgba(255,255,255,0.5); }
+        
+        .container {
+            position: relative; z-index: 10;
+            max-width: 900px;
+            margin: 120px auto 100px;
+            padding: 0 24px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .header h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(40px, 8vw, 80px);
+            font-weight: 900;
+            letter-spacing: -2px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+        .header p {
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        .log-container {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+        .log-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--glass-border);
+            transition: background 0.3s;
+        }
+        .log-item:hover { background: rgba(255,255,255,0.02); }
+        .log-item:last-child { border-bottom: none; }
+        
+        .log-time {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        
+        .status-badge {
+            display: flex; align-items: center; gap: 10px;
+            padding: 8px 16px; border-radius: 100px;
+            font-weight: 600; font-size: 14px; letter-spacing: 0.5px;
+        }
+        .status-online {
+            background: rgba(94, 234, 145, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(94, 234, 145, 0.2);
+        }
+        .status-offline {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--accent-red);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+        .loading {
+            padding: 60px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        @media (max-width: 600px) {
+            nav { padding: 24px; }
+            .log-item { flex-direction: column; align-items: flex-start; gap: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <nav>
+        <div class="nav-links">
+            <a href="index.html">← Return Home</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Telemetry Logs</h1>
+            <p>0-millisecond real-time server history powered by Firebase.</p>
+        </div>
+        
+        <div class="log-container" id="log-list">
+            <div class="loading">Synchronizing with Firebase...</div>
+        </div>
+        
+        <div style="margin-top: 100px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 14px; flex-wrap: wrap; gap: 24px;">
+            <div>&copy; 2026 TUMO07 Server. All rights reserved.</div>
+            <div style="display: flex; gap: 24px;">
+                <a href="https://fb.com/tumo07" target="_blank" style="color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">Facebook</a>
+                <a href="https://github.com/tumo07" target="_blank" style="color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">GitHub</a>
+            </div>
+            <div style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #fff; font-size: 18px;">TUMO<span style="color: var(--accent);">07</span></div>
+        </div>
+    </div>
+
+    <script>
+        async function loadLogs() {
+            const list = document.getElementById('log-list');
+            try {
+                // Firebase is purely the event history log
+                const logResponse = await fetch('https://tumo07-status-default-rtdb.firebaseio.com/logs.json');
+                let logsObj = await logResponse.json();
+                let logs = [];
+                if (Array.isArray(logsObj)) {
+                    logs = logsObj.filter(l => l !== null);
+                } else if (logsObj && typeof logsObj === 'object') {
+                    logs = Object.values(logsObj).filter(l => l !== null);
+                }
+                
+                if (logs.length === 0) {
+                    list.innerHTML = '<div class="loading">No logs recorded yet.</div>';
+                    return;
+                }
+                
+                let html = '';
+                logs.forEach(log => {
+                    const statusClass = log.online ? 'status-online' : 'status-offline';
+                    let statusText = log.event_message || (log.online ? `Online (${log.players} players)` : 'Offline');
+                    const dotColor = log.online ? 'var(--accent)' : 'var(--accent-red)';
+                    
+                    html += `
+                        <div class="log-item">
+                            <span class="log-time">${log.timestamp}</span>
+                            <div class="status-badge ${statusClass}">
+                                <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${dotColor}; box-shadow: 0 0 10px ${dotColor}"></span>
+                                ${statusText}
+                            </div>
+                        </div>
+                    `;
+                });
+                list.innerHTML = html;
+            } catch (error) {
+                list.innerHTML = '<div class="loading" style="color:var(--accent-red)">Error loading logs. Database might be unreachable.</div>';
+            }
+        }
+        
+        loadLogs();
+        setInterval(loadLogs, 10000);
+    </script>
+</body>
+</html>

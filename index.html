@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUMO07 — High Performance Fabric</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(10, 10, 15, 0.35);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-blur: blur(50px) saturate(200%);
+            --accent: #5eea91;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background-color: #000;
+            overflow-x: hidden;
+            /* The Cinematic Background */
+            background-image: url('assets/hero_bg.png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.8) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            padding: 32px 64px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; opacity: 0.7; transition: 0.3s; }
+        .nav-links a:hover { opacity: 1; text-shadow: 0 0 15px rgba(255,255,255,0.5); }
+        
+        .hero {
+            position: relative; z-index: 10;
+            min-height: 100vh;
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 10%;
+        }
+        .hero-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(60px, 12vw, 160px);
+            font-weight: 900;
+            line-height: 0.85;
+            text-transform: uppercase;
+            letter-spacing: -0.04em;
+            margin-bottom: 32px;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.4);
+            position: relative;
+        }
+        .hero-title span {
+            color: #fff;
+            -webkit-text-stroke: 0;
+            text-shadow: 0 0 80px rgba(255,255,255,0.2);
+        }
+        .hero-subtitle {
+            font-size: 22px;
+            max-width: 550px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 64px;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 24px;
+            max-width: 1200px;
+        }
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.5s;
+        }
+        .glass-panel:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255,255,255,0.2);
+        }
+        
+        .status-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 32px; flex-wrap: wrap; gap: 16px;}
+        .status-title { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; letter-spacing: -1px; }
+        .status-badge {
+            display: flex; align-items: center; gap: 10px;
+            background: rgba(94, 234, 145, 0.1);
+            padding: 10px 20px; border-radius: 100px;
+            color: var(--accent); font-weight: 600; font-size: 14px;
+            border: 1px solid rgba(94, 234, 145, 0.2);
+        }
+        .pulse-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+        
+        .ip-box {
+            display: inline-block;
+            margin-top: 24px;
+            padding: 16px 32px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px; color: var(--accent);
+            cursor: pointer; transition: 0.3s;
+            font-weight: 600;
+        }
+        .ip-box:hover { background: rgba(94, 234, 145, 0.15); border-color: var(--accent); transform: translateY(-2px); }
+        
+        .actions-col { display: flex; flex-direction: column; gap: 24px; }
+        .action-btn {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 100%; padding: 0 40px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            color: #fff; text-decoration: none;
+            font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 600;
+            transition: 0.4s;
+        }
+        .action-btn span { opacity: 0.3; transition: 0.4s; }
+        .action-btn:hover { background: #fff; color: #000; transform: translateX(8px); }
+        .action-btn:hover span { opacity: 1; color: #000; transform: translateX(8px); }
+        
+        .scroll-indicator {
+            position: absolute; bottom: 40px; left: 10%;
+            display: flex; align-items: center; gap: 16px;
+            opacity: 0.5; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 4px;
+            transform: rotate(-90deg); transform-origin: left center;
+        }
+        .scroll-line { width: 60px; height: 1px; background: #fff; }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 80px; }
+            .hero { padding: 160px 8% 80px; }
+            .action-btn { padding: 40px; }
+            nav { padding: 24px 8%; }
+        }
+        @media (max-width: 600px) {
+            .hero-title { font-size: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay"></div>
+
+    <nav>
+        <div class="logo">TUMO<span>07</span></div>
+        <div class="nav-links">
+            <a href="status.html">Live Status</a>
+            <a href="http://tumo07.io.vn:8080" target="_blank">Live Map</a>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            Scroll
+        </div>
+
+        <h1 class="hero-title">Beyond<br><span>Vanilla.</span></h1>
+        <p class="hero-subtitle">The official TUMO07 server. A meticulously crafted, heavily modded Fabric experience built for performance and true scale.</p>
+        
+        <div class="dashboard-grid">
+            <div class="glass-panel">
+                <div class="status-header">
+                    <div class="status-title">Server Telemetry</div>
+                    <div class="status-badge" id="server-status-badge">
+                        <div class="pulse-dot" id="server-status-dot"></div>
+                        <span id="server-status-text">Connecting...</span>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 16px; max-width: 400px;">
+                    Powered by Google Firebase.<br>Streaming 0-millisecond real-time event logs directly from the Fabric console.
+                </p>
+                <div class="ip-box" onclick="navigator.clipboard.writeText('tumo07.io.vn'); alert('IP Address Copied!');">
+                    tumo07.io.vn
+                </div>
+            </div>
+
+            <div class="actions-col">
+                <a href="status.html" class="action-btn">
+                    Terminal Logs <span>→</span>
+                </a>
+                <a href="http://tumo07.io.vn:8080" class="action-btn" target="_blank">
+                    Interactive Map <span>→</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div style="position: relative; z-index: 10; padding: 160px 10%; background: #050508;">
+        <h2 style="font-family: 'Outfit', sans-serif; font-size: 64px; margin-bottom: 80px; font-weight: 900; letter-spacing: -2px;">Recent Updates</h2>
+        <div style="display: flex; flex-direction: column; gap: 32px; max-width: 1000px; position: relative; padding-left: 24px;">
+            <!-- Vertical Line -->
+            <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--accent), #60a5fa, transparent); opacity: 0.3;"></div>
+
+            <!-- Update 1 -->
+            <div class="glass-panel" style="position: relative; background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; box-shadow: none;">
+                <!-- Timeline Dot -->
+                <div style="position: absolute; left: -29px; top: 48px; width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 15px var(--accent); border: 2px solid #000;"></div>
+                
+                <div style="display: flex; gap: 16px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted);">2026-07-14</span>
+                    <span style="background: rgba(94, 234, 145, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; border: 1px solid rgba(94,234,145,0.2);">v26.1.3</span>
+                    <span style="color: var(--accent); font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 2px;">Infrastructure</span>
+                </div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 28px; margin-bottom: 16px; font-weight: 800;">Dual-Source Status Architecture</h3>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 16px;">Redesigned the status monitoring pipeline. Firebase now serves as the sole authoritative source for server state via a dedicated real-time status node, delivering instant updates with near-zero latency. External API polling is used exclusively for player count enrichment and never overrides the primary status feed.</p>
+            </div>
+
+            <!-- Update 2 -->
+            <div class="glass-panel" style="position: relative; background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; box-shadow: none;">
+                <!-- Timeline Dot -->
+                <div style="position: absolute; left: -29px; top: 48px; width: 12px; height: 12px; border-radius: 50%; background: #60a5fa; box-shadow: 0 0 15px #60a5fa; border: 2px solid #000;"></div>
+                
+                <div style="display: flex; gap: 16px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted);">2026-07-13</span>
+                    <span style="background: rgba(94, 234, 145, 0.1); color: var(--accent); padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; border: 1px solid rgba(94,234,145,0.2);">v26.1.2</span>
+                    <span style="color: #60a5fa; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 2px;">Infrastructure</span>
+                </div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 28px; margin-bottom: 16px; font-weight: 800;">Firebase Telemetry Pipeline</h3>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 16px;">Migrated the server telemetry pipeline to Google Firebase Realtime Database. Improved dashboard synchronization to true sub-second latency.</p>
+            </div>
+
+            <!-- Update 2 -->
+            <div class="glass-panel" style="position: relative; background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; box-shadow: none;">
+                <div style="position: absolute; left: -29px; top: 48px; width: 12px; height: 12px; border-radius: 50%; background: #60a5fa; box-shadow: 0 0 15px #60a5fa; border: 2px solid #000;"></div>
+                
+                <div style="display: flex; gap: 16px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted);">2026-07-13</span>
+                    <span style="background: rgba(255, 255, 255, 0.05); color: #fff; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.1);">v26.1.1</span>
+                    <span style="color: #60a5fa; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 2px;">System</span>
+                </div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 28px; margin-bottom: 16px; font-weight: 800;">Diagnostic Core Integration</h3>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 16px;">Integrated interactive maintenance hooks into the local hardware watchdog script. Administrators can now securely bypass the crash reboot loop.</p>
+            </div>
+
+            <!-- Update 3 -->
+            <div class="glass-panel" style="position: relative; background: rgba(20, 20, 25, 0.4); border: 1px solid rgba(255,255,255,0.05); padding: 40px; border-radius: 16px; box-shadow: none;">
+                <div style="position: absolute; left: -29px; top: 48px; width: 12px; height: 12px; border-radius: 50%; background: #a855f7; box-shadow: 0 0 15px #a855f7; border: 2px solid #000;"></div>
+                
+                <div style="display: flex; gap: 16px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;">
+                    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-muted);">2026-07-13</span>
+                    <span style="background: rgba(255, 255, 255, 0.05); color: #fff; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; border: 1px solid rgba(255,255,255,0.1);">v26.1.0</span>
+                    <span style="color: #a855f7; font-weight: 700; font-size: 12px; text-transform: uppercase; letter-spacing: 2px;">Design</span>
+                </div>
+                <h3 style="font-family: 'Outfit', sans-serif; font-size: 28px; margin-bottom: 16px; font-weight: 800;">AAA Frontend Overhaul</h3>
+                <p style="color: var(--text-muted); line-height: 1.8; font-size: 16px;">Deployed the v2 website overhaul. Upgraded frontend architecture with cinematic ray-traced rendering, pure glassmorphism, and asymmetrical UX elements.</p>
+            </div>
+
+        </div>
+        
+        <div style="margin-top: 160px; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 14px; flex-wrap: wrap; gap: 24px;">
+            <div>&copy; 2026 TUMO07 Server. All rights reserved.</div>
+            <div style="display: flex; gap: 24px;">
+                <a href="https://fb.com/tumo07" target="_blank" style="color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">Facebook</a>
+                <a href="https://github.com/tumo07" target="_blank" style="color: var(--text-muted); text-decoration: none; font-weight: 600; transition: color 0.3s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='var(--text-muted)'">GitHub</a>
+            </div>
+            <div style="font-family: 'Outfit', sans-serif; font-weight: 800; color: #fff; font-size: 18px;">TUMO<span style="color: var(--accent);">07</span></div>
+        </div>
+    </div>
+
+    <script>
+        async function checkServerStatus() {
+            const badge = document.getElementById('server-status-badge');
+            const dot = document.getElementById('server-status-dot');
+            const text = document.getElementById('server-status-text');
+
+            // Firebase /status is the sole source of truth
+            let isOnline = false;
+            let eventMsg = '';
+            try {
+                const res = await fetch('https://tumo07-status-default-rtdb.firebaseio.com/status.json');
+                const status = await res.json();
+                if (status) {
+                    isOnline = status.online === true;
+                    eventMsg = status.last_event || '';
+                }
+            } catch (e) {
+                text.innerHTML = 'Status Unavailable';
+                return;
+            }
+
+            if (isOnline) {
+                // Server is online — try to grab player count from mcstatus (enrichment only)
+                let playerText = '';
+                try {
+                    const res = await fetch('https://api.mcstatus.io/v2/status/java/tumo07.io.vn');
+                    const data = await res.json();
+                    if (data.online && data.players) {
+                        playerText = ` &mdash; ${data.players.online}/${data.players.max} Players`;
+                    }
+                } catch (e) { /* No player count available, that's fine */ }
+
+                text.innerHTML = `System Online${playerText}`;
+                dot.style.background = 'var(--accent)';
+                dot.style.animation = 'pulse 2s infinite';
+                badge.style.background = 'rgba(94, 234, 145, 0.1)';
+                badge.style.borderColor = 'rgba(94, 234, 145, 0.2)';
+                badge.style.color = 'var(--accent)';
+            } else {
+                let detail = 'Offline';
+                if (eventMsg.toLowerCase().includes('diagnostic') || eventMsg.toLowerCase().includes('maintenance')) {
+                    detail = 'Maintenance';
+                } else if (eventMsg.toLowerCase().includes('crash')) {
+                    detail = 'Recovering';
+                }
+                text.innerHTML = `System ${detail}`;
+                dot.style.background = '#f87171';
+                dot.style.animation = 'none';
+                badge.style.background = 'rgba(248, 113, 113, 0.1)';
+                badge.style.borderColor = 'rgba(248, 113, 113, 0.2)';
+                badge.style.color = '#f87171';
+            }
+        }
+        checkServerStatus();
+        setInterval(checkServerStatus, 15000);
+    </script>
+</body>
+</html>
