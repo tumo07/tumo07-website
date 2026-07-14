@@ -7,179 +7,226 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #030305;
-            --accent: #5eea91;
-            --accent-glow: rgba(94, 234, 145, 0.4);
-            --accent-red: #f87171;
-            --accent-blue: #60a5fa;
-            --text-main: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.6);
-            --glass-bg: rgba(15, 15, 20, 0.15);
-            --glass-border: rgba(255, 255, 255, 0.15);
-            --glass-blur: blur(60px) saturate(200%);
+            --bg: #0a0a0c;
+            --surface: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.18);
+            --text: #f5f5f7;
+            --text-secondary: rgba(255, 255, 255, 0.55);
+            --green: #34c759;
+            --green-dim: rgba(52, 199, 89, 0.15);
+            --red: #ff453a;
+            --red-dim: rgba(255, 69, 58, 0.15);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --radius-pill: 100px;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            color: var(--text-main);
-            background-color: var(--bg-color);
-            background-image: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url('assets/hero_bg.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        
 
+        .bg-layer {
+            position: fixed; inset: 0; z-index: 0;
+            background-image: url('assets/hero_bg.jpg');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.25) saturate(1.1);
+        }
+        .bg-gradient {
+            position: fixed; inset: 0; z-index: 1;
+            background: linear-gradient(180deg, transparent 0%, rgba(10, 10, 12, 0.7) 40%, rgba(10, 10, 12, 0.98) 100%);
+        }
 
+        /* Navigation */
         nav {
-            position: fixed; top: 0; width: 100%; z-index: 100;
-            padding: 24px 5%;
+            position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+            z-index: 100;
+            width: calc(100% - 32px); max-width: 900px;
+            padding: 14px 28px;
             display: flex; justify-content: space-between; align-items: center;
-            background: linear-gradient(180deg, rgba(3,3,5,0.9) 0%, transparent 100%);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(40px) saturate(200%);
+            -webkit-backdrop-filter: blur(40px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius);
+            box-shadow:
+                inset 0 0.5px 0 rgba(255, 255, 255, 0.12),
+                0 4px 24px rgba(0, 0, 0, 0.2);
         }
-        .logo { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; text-decoration: none; color: #fff;}
-        .logo span { color: var(--accent); }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a { color: var(--text-main); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.7; transition: 0.3s; }
-        .nav-links a:hover { opacity: 1; text-shadow: 0 0 12px rgba(255,255,255,0.4); }
-        
+        .logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 20px; font-weight: 800;
+            letter-spacing: -0.5px;
+            text-decoration: none; color: var(--text);
+        }
+        .logo span { color: var(--green); }
+        .nav-links { display: flex; gap: 8px; align-items: center; }
+        .nav-links a {
+            color: var(--text); text-decoration: none;
+            font-size: 13px; font-weight: 500;
+            padding: 8px 14px; border-radius: var(--radius-sm);
+            opacity: 0.65; transition: all 0.25s ease;
+        }
+        .nav-links a:hover { opacity: 1; background: rgba(255, 255, 255, 0.06); }
+
+        /* Container */
         .container {
             position: relative; z-index: 10;
             max-width: 900px;
-            margin: 140px auto 100px;
-            padding: 0 5%;
+            margin: 120px auto 80px;
+            padding: 0 24px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 48px;
         }
         .header h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: clamp(40px, 8vw, 64px);
+            font-size: clamp(36px, 7vw, 56px);
             font-weight: 900;
-            letter-spacing: -2px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.3) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+            margin-bottom: 12px;
+            color: var(--text);
         }
         .header p {
-            font-size: 18px;
-            color: var(--text-muted);
+            font-size: 16px;
+            color: var(--text-secondary);
             line-height: 1.6;
         }
 
+        /* Log Container */
         .log-container {
-            background: var(--glass-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--glass-border);
-            border-top: 1px solid rgba(255, 255, 255, 0.3);
-            border-left: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 24px;
+            border-radius: var(--radius);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--border);
+            box-shadow:
+                inset 0 0.5px 0 rgba(255, 255, 255, 0.08),
+                0 8px 32px rgba(0, 0, 0, 0.25);
             overflow: hidden;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.2), 0 30px 60px rgba(0,0,0,0.6);
         }
         .log-item {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 24px 32px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: background 0.3s;
+            padding: 20px 28px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            transition: background 0.25s ease;
         }
-        .log-item:hover { background: rgba(255,255,255,0.02); }
+        .log-item:hover { background: rgba(255, 255, 255, 0.02); }
         .log-item:last-child { border-bottom: none; }
-        
+
         .log-time {
             font-family: 'JetBrains Mono', monospace;
-            color: var(--text-muted);
-            font-size: 13px;
-            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 12px; font-weight: 500;
         }
-        
+
         .status-badge {
-            display: flex; align-items: center; gap: 10px;
-            padding: 8px 16px; border-radius: 100px;
-            font-weight: 700; font-size: 13px; letter-spacing: 0.5px;
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-weight: 600; font-size: 12px;
             font-family: 'JetBrains Mono', monospace;
         }
         .status-online {
-            background: rgba(94, 234, 145, 0.05);
-            color: #fff;
-            border: 1px solid rgba(94, 234, 145, 0.3);
+            background: var(--green-dim);
+            color: var(--green);
+            border: 1px solid rgba(52, 199, 89, 0.2);
         }
         .status-offline {
-            background: rgba(248, 113, 113, 0.05);
-            color: #fff;
-            border: 1px solid rgba(248, 113, 113, 0.3);
+            background: var(--red-dim);
+            color: var(--red);
+            border: 1px solid rgba(255, 69, 58, 0.2);
         }
+
+        .status-dot {
+            display: inline-block;
+            width: 7px; height: 7px; border-radius: 50%;
+        }
+        .status-online .status-dot {
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green);
+        }
+        .status-offline .status-dot {
+            background: var(--red);
+            box-shadow: 0 0 8px var(--red);
+        }
+
         .loading {
             padding: 60px;
             text-align: center;
-            color: var(--text-muted);
-            font-size: 16px;
+            color: var(--text-secondary);
+            font-size: 14px;
         }
 
+        /* Footer */
         footer {
-            padding: 40px 5%;
-            margin-top: 80px;
-            border-top: 1px solid rgba(255,255,255,0.05);
+            position: relative; z-index: 10;
+            padding: 32px 24px;
+            border-top: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
-            color: var(--text-muted); font-size: 13px;
+            max-width: 900px; margin: 0 auto;
+            color: var(--text-secondary); font-size: 12px;
         }
-        .footer-logo { font-family: 'Outfit', sans-serif; font-weight: 800; color: #fff; font-size: 18px; }
+        .footer-logo { font-weight: 800; color: var(--text); font-size: 16px; }
+        .footer-logo span { color: var(--green); }
 
         @media (max-width: 600px) {
-            .log-item { flex-direction: column; align-items: flex-start; gap: 12px; }
-            nav { position: absolute; flex-direction: column; gap: 16px; padding: 20px 5%; }
-            .nav-links { flex-wrap: wrap; justify-content: center; gap: 16px; width: 100%; }
-            footer { flex-direction: column; gap: 16px; text-align: center; }
+            nav {
+                top: 8px; width: calc(100% - 16px);
+                padding: 12px 16px;
+                flex-direction: column; gap: 10px;
+            }
+            .nav-links { flex-wrap: wrap; justify-content: center; gap: 4px; }
+            .log-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 20px; }
+            footer { flex-direction: column; gap: 12px; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="ambient-bg" style="display:none;"></div>
-    <div class="noise" style="display:none;"></div>
+    <div class="bg-layer"></div>
+    <div class="bg-gradient"></div>
 
     <nav>
         <a href="index.html" class="logo">TUMO<span>07</span></a>
         <div class="nav-links">
-            <a href="index.html">← Return Home</a>
+            <a href="index.html">← Home</a>
         </div>
     </nav>
-    
+
     <div class="container">
         <div class="header">
             <h1>Telemetry Logs</h1>
-            <p>0-millisecond real-time server history powered by Firebase.</p>
+            <p>Real-time server history powered by Firebase.</p>
         </div>
-        
+
         <div class="log-container" id="log-list">
-            <div class="loading">Synchronizing with Firebase...</div>
+            <div class="loading">Synchronizing with Firebase…</div>
         </div>
     </div>
 
     <footer>
-        <div>&copy; 2026 TUMO07 Server. All rights reserved.</div>
-        <div class="footer-logo">TUMO<span style="color: var(--accent);">07</span></div>
+        <div>&copy; 2026 TUMO07 Server</div>
+        <div class="footer-logo">TUMO<span>07</span></div>
     </footer>
 
     <script>
         async function loadLogs() {
             const list = document.getElementById('log-list');
             try {
-                // Firebase is purely the event history log
                 const logResponse = await fetch('https://tumo07-status-default-rtdb.firebaseio.com/logs.json');
                 let logsObj = await logResponse.json();
                 let logs = [];
@@ -188,31 +235,27 @@
                 } else if (logsObj && typeof logsObj === 'object') {
                     logs = Object.values(logsObj).filter(l => l !== null);
                 }
-                
+
                 if (logs.length === 0) {
                     list.innerHTML = '<div class="loading">No logs recorded yet.</div>';
                     return;
                 }
-                
-                let html = '';
-                
-                // Ensure array is sorted newest-first
+
                 logs.sort((a, b) => {
                     let matchA = a.timestamp ? a.timestamp.match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})/) : null;
                     let matchB = b.timestamp ? b.timestamp.match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})/) : null;
                     let timeA = matchA ? new Date(`${matchA[1]}T${matchA[2]}:00Z`).getTime() : 0;
                     let timeB = matchB ? new Date(`${matchB[1]}T${matchB[2]}:00Z`).getTime() : 0;
-                    return timeB - timeA; // Descending (newest on top)
+                    return timeB - timeA;
                 });
 
+                let html = '';
                 logs.forEach(log => {
                     const statusClass = log.online ? 'status-online' : 'status-offline';
                     let statusText = log.event_message || (log.online ? `Online (${log.players} players)` : 'Offline');
-                    const dotColor = log.online ? 'var(--accent)' : '#f87171';
-                    
+
                     let displayTime = log.timestamp;
                     if (displayTime) {
-                        // More robust parsing: find "YYYY-MM-DD HH:MM" and assume UTC
                         let match = displayTime.match(/(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})/);
                         if (match) {
                             let dateStr = `${match[1]}T${match[2]}:00Z`;
@@ -225,7 +268,7 @@
                                 let dd = String(d7.getUTCDate()).padStart(2, '0');
                                 let hh = String(d7.getUTCHours()).padStart(2, '0');
                                 let min = String(d7.getUTCMinutes()).padStart(2, '0');
-                                displayTime = `${yyyy}-${mm}-${dd} ${hh}:${min} (UTC+7)`;
+                                displayTime = `${yyyy}-${mm}-${dd} ${hh}:${min} UTC+7`;
                             }
                         }
                     }
@@ -234,7 +277,7 @@
                         <div class="log-item">
                             <span class="log-time">${displayTime}</span>
                             <div class="status-badge ${statusClass}">
-                                <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:${dotColor}; box-shadow: 0 0 10px ${dotColor}"></span>
+                                <span class="status-dot"></span>
                                 ${statusText}
                             </div>
                         </div>
@@ -242,10 +285,10 @@
                 });
                 list.innerHTML = html;
             } catch (error) {
-                list.innerHTML = '<div class="loading" style="color:var(--accent-red)">Error loading logs. Database might be unreachable.</div>';
+                list.innerHTML = '<div class="loading" style="color:var(--red)">Error loading logs. Database might be unreachable.</div>';
             }
         }
-        
+
         loadLogs();
         setInterval(loadLogs, 10000);
     </script>
