@@ -178,86 +178,54 @@
             font-weight: 400;
         }
 
-        /* IP Copy Button */
+        /* IP Copy — Terminal style */
         .ip-copy-wrapper { position: relative; display: inline-block; }
         .ip-copy-btn {
             position: relative;
-            padding: clamp(18px, 3vw, 32px) clamp(32px, 5vw, 64px);
-            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            padding: clamp(14px, 2vw, 20px) clamp(24px, 4vw, 48px);
+            display: flex; align-items: center; gap: clamp(12px, 2vw, 20px);
             cursor: pointer;
-            border-radius: var(--radius);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(40px) saturate(180%);
-            -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border: 1px solid transparent;
-            box-shadow:
-                inset 0 0.5px 0 rgba(255, 255, 255, 0.12),
-                0 8px 32px rgba(0, 0, 0, 0.25);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: visible;
-        }
-        /* Animated shimmer border */
-        .ip-copy-btn::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: inherit;
-            padding: 1px;
-            background: conic-gradient(
-                from var(--shimmer-angle, 0deg),
-                transparent 0%,
-                rgba(255, 255, 255, 0.15) 10%,
-                rgba(52, 199, 89, 0.3) 20%,
-                rgba(90, 200, 250, 0.2) 30%,
-                transparent 40%,
-                transparent 100%
-            );
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            animation: shimmerSpin 4s linear infinite;
-            pointer-events: none;
-        }
-        @property --shimmer-angle {
-            syntax: '<angle>';
-            initial-value: 0deg;
-            inherits: false;
-        }
-        @keyframes shimmerSpin {
-            to { --shimmer-angle: 360deg; }
-        }
-        .ip-copy-btn::after {
-            content: '';
-            position: absolute; inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
-            border-radius: inherit;
-            pointer-events: none;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            transition: all 0.25s ease;
         }
         .ip-copy-btn:hover {
-            transform: translateY(-3px);
-            box-shadow:
-                inset 0 0.5px 0 rgba(255, 255, 255, 0.15),
-                0 16px 48px rgba(0, 0, 0, 0.4),
-                0 0 40px rgba(52, 199, 89, 0.06);
+            border-color: var(--border-hover);
+            background: rgba(255, 255, 255, 0.06);
         }
-        .ip-copy-btn:active { transform: translateY(1px) scale(0.99); }
+        .ip-copy-btn:active { transform: scale(0.98); }
+        .ip-text {
+            display: flex; flex-direction: column; gap: 2px;
+        }
         .ip-label {
-            font-size: 11px; font-weight: 600;
-            text-transform: uppercase; letter-spacing: 1.5px;
+            font-size: 11px; font-weight: 500;
+            text-transform: uppercase; letter-spacing: 1px;
             color: var(--text-secondary);
         }
         .ip-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(18px, 3vw, 30px); font-weight: 700;
-            color: #fff; letter-spacing: -0.5px;
+            font-size: clamp(18px, 2.5vw, 26px); font-weight: 600;
+            color: #fff; letter-spacing: -0.3px;
         }
+        .ip-copy-icon {
+            width: 36px; height: 36px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.25s ease;
+            flex-shrink: 0;
+        }
+        .ip-copy-icon svg { width: 16px; height: 16px; stroke: var(--text-secondary); fill: none; stroke-width: 1.5; transition: stroke 0.25s; }
+        .ip-copy-btn:hover .ip-copy-icon { background: var(--text); border-color: transparent; }
+        .ip-copy-btn:hover .ip-copy-icon svg { stroke: var(--bg); }
         .copy-toast {
-            position: absolute; top: -44px; left: 50%;
-            transform: translateX(-50%) translateY(10px);
+            position: absolute; top: -40px; left: 50%;
+            transform: translateX(-50%) translateY(8px);
             background: var(--green); color: #fff;
-            padding: 6px 14px; border-radius: var(--radius-pill);
-            font-size: 12px; font-weight: 600;
+            padding: 5px 12px; border-radius: var(--radius-pill);
+            font-size: 11px; font-weight: 600;
             opacity: 0; pointer-events: none;
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -491,8 +459,13 @@
         <div class="ip-copy-wrapper reveal active">
             <div class="copy-toast" id="copy-toast">Copied!</div>
             <div class="ip-copy-btn" onclick="copyIP()">
-                <span class="ip-label">Click to copy server IP</span>
-                <span class="ip-value">tumo07.io.vn</span>
+                <div class="ip-text">
+                    <span class="ip-label">Server IP</span>
+                    <span class="ip-value">tumo07.io.vn</span>
+                </div>
+                <div class="ip-copy-icon">
+                    <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                </div>
             </div>
         </div>
 
