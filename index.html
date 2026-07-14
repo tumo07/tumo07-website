@@ -346,7 +346,6 @@
         }
         .update-card {
             position: relative;
-            padding: clamp(20px, 2.5vw, 32px) clamp(18px, 2vw, 28px);
             border-radius: var(--radius);
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(20px);
@@ -355,40 +354,43 @@
             box-shadow: inset 0 0.5px 0 rgba(255,255,255,0.06);
             transition: all 0.3s ease;
             overflow: hidden;
+            display: flex; flex-direction: column;
         }
         .update-card:hover {
-            background: var(--surface-hover);
+            background: rgba(255, 255, 255, 0.05);
             border-color: var(--border-hover);
             transform: translateY(-2px);
         }
+        .update-banner {
+            height: 140px; width: 100%;
+            background: linear-gradient(135deg, rgba(102,192,244,0.12) 0%, transparent 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+        }
+        .update-banner.infra { background: linear-gradient(135deg, rgba(52, 199, 89, 0.12) 0%, transparent 100%); }
+        .update-banner.system { background: linear-gradient(135deg, rgba(90, 200, 250, 0.12) 0%, transparent 100%); }
+        .update-banner.design { background: linear-gradient(135deg, rgba(191, 90, 242, 0.12) 0%, transparent 100%); }
+        
+        .update-content { padding: clamp(20px, 2.5vw, 28px) clamp(20px, 2vw, 24px); display: flex; flex-direction: column; flex: 1; }
+        .update-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
         .update-tag {
             display: inline-block;
-            padding: 3px 10px;
-            border-radius: var(--radius-pill);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px; font-weight: 600;
-            margin-bottom: 14px;
-            letter-spacing: 0.3px;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 11px; font-weight: 700;
+            letter-spacing: 0.5px;
+            /* Steam style blue */
+            color: #66c0f4; background: rgba(102, 192, 244, 0.1);
+            border: 1px solid rgba(102, 192, 244, 0.2);
+            text-transform: uppercase;
         }
-        .update-tag.infra {
-            color: var(--green); background: var(--green-dim);
-            border: 1px solid rgba(52, 199, 89, 0.2);
-        }
-        .update-tag.system {
-            color: #5ac8fa; background: rgba(90, 200, 250, 0.1);
-            border: 1px solid rgba(90, 200, 250, 0.2);
-        }
-        .update-tag.design {
-            color: #bf5af2; background: rgba(191, 90, 242, 0.1);
-            border: 1px solid rgba(191, 90, 242, 0.2);
-        }
-        .update-title { font-size: clamp(15px, 1.4vw, 19px); font-weight: 700; margin-bottom: 8px; }
-        .update-desc { color: var(--text-secondary); font-size: clamp(13px, 1.1vw, 15px); line-height: 1.6; }
         .update-date {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 11px; color: rgba(255,255,255,0.25);
-            margin-top: 16px; display: block;
+            font-size: 11px; color: rgba(255,255,255,0.35);
+            text-transform: uppercase; letter-spacing: 0.5px;
         }
+        .update-title { font-size: clamp(16px, 1.4vw, 20px); font-weight: 700; margin-bottom: 10px; color: #fff; }
+        .update-desc { color: var(--text-secondary); font-size: clamp(13px, 1.1vw, 15px); line-height: 1.6; }
 
         /* Footer */
         footer {
@@ -526,33 +528,53 @@
 
     <section class="patch-notes-section">
         <div class="section-header reveal">
-            <h2>Live Status</h2>
-            <p>Server telemetry, perfectly synced and instant.</p>
+            <h2>Developer Updates</h2>
+            <p>The latest patch notes and news directly from the server team.</p>
         </div>
         <div class="update-grid">
             <div class="update-card reveal">
-                <span class="update-tag infra">v26.1.3 — Infrastructure</span>
-                <h3 class="update-title">Instant Live Status</h3>
-                <p class="update-desc">We switched to Firebase for our live server status. The website now syncs perfectly with the server in real-time, so you always know when we're online.</p>
-                <span class="update-date">2026-07-14</span>
+                <div class="update-banner infra"></div>
+                <div class="update-content">
+                    <div class="update-meta">
+                        <span class="update-tag">MAJOR UPDATE</span>
+                        <span class="update-date">JUL 14, 2026</span>
+                    </div>
+                    <h3 class="update-title">Instant Live Status</h3>
+                    <p class="update-desc">We switched to Firebase for our live server status. The website now syncs perfectly with the server in real-time, so you always know when we're online.</p>
+                </div>
             </div>
             <div class="update-card reveal" style="transition-delay: 0.06s;">
-                <span class="update-tag infra">v26.1.2 — Infrastructure</span>
-                <h3 class="update-title">Firebase Upgrade</h3>
-                <p class="update-desc">Upgraded the backend database for faster status logs and less polling delay.</p>
-                <span class="update-date">2026-07-13</span>
+                <div class="update-banner infra"></div>
+                <div class="update-content">
+                    <div class="update-meta">
+                        <span class="update-tag">INFRASTRUCTURE</span>
+                        <span class="update-date">JUL 13, 2026</span>
+                    </div>
+                    <h3 class="update-title">Firebase Upgrade</h3>
+                    <p class="update-desc">Upgraded the backend database for faster status logs and less polling delay.</p>
+                </div>
             </div>
             <div class="update-card reveal" style="transition-delay: 0.12s;">
-                <span class="update-tag system">v26.1.1 — System</span>
-                <h3 class="update-title">Admin Maintenance Tools</h3>
-                <p class="update-desc">Added new hooks to safely reboot the server during maintenance without triggering the crash auto-reboot loops.</p>
-                <span class="update-date">2026-07-13</span>
+                <div class="update-banner system"></div>
+                <div class="update-content">
+                    <div class="update-meta">
+                        <span class="update-tag">SYSTEM</span>
+                        <span class="update-date">JUL 13, 2026</span>
+                    </div>
+                    <h3 class="update-title">Admin Maintenance Tools</h3>
+                    <p class="update-desc">Added new hooks to safely reboot the server during maintenance without triggering the crash auto-reboot loops.</p>
+                </div>
             </div>
             <div class="update-card reveal" style="transition-delay: 0.18s;">
-                <span class="update-tag design">v26.1.0 — Design</span>
-                <h3 class="update-title">Website Redesign</h3>
-                <p class="update-desc">Complete website visual overhaul with a new glass theme, better live status checking, and easier ways to copy the server IP.</p>
-                <span class="update-date">2026-07-13</span>
+                <div class="update-banner design"></div>
+                <div class="update-content">
+                    <div class="update-meta">
+                        <span class="update-tag">DESIGN</span>
+                        <span class="update-date">JUL 13, 2026</span>
+                    </div>
+                    <h3 class="update-title">Website Redesign</h3>
+                    <p class="update-desc">Complete website visual overhaul with a new glass theme, better live status checking, and easier ways to copy the server IP.</p>
+                </div>
             </div>
         </div>
     </section>
