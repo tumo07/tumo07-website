@@ -310,6 +310,7 @@
             max-width: 1600px; margin: 0 auto;
         }
         .feature-card {
+            position: relative;
             padding: clamp(22px, 2.5vw, 36px) clamp(20px, 2vw, 32px);
             border-radius: var(--radius);
             background: rgba(255, 255, 255, 0.03);
@@ -318,6 +319,7 @@
             border: 1px solid var(--border);
             box-shadow: inset 0 0.5px 0 rgba(255,255,255,0.06);
             transition: all 0.35s ease;
+            overflow: hidden;
         }
         .feature-card:hover {
             background: var(--surface-hover);
@@ -343,6 +345,7 @@
             max-width: 1600px; margin: 0 auto;
         }
         .update-card {
+            position: relative;
             padding: clamp(20px, 2.5vw, 32px) clamp(18px, 2vw, 28px);
             border-radius: var(--radius);
             background: rgba(255, 255, 255, 0.03);
@@ -351,6 +354,7 @@
             border: 1px solid var(--border);
             box-shadow: inset 0 0.5px 0 rgba(255,255,255,0.06);
             transition: all 0.3s ease;
+            overflow: hidden;
         }
         .update-card:hover {
             background: var(--surface-hover);
@@ -396,6 +400,29 @@
         }
         .footer-logo { font-weight: 800; color: var(--text); font-size: 16px; }
         .footer-logo span { color: var(--green); }
+        
+        /* Dynamic Cursor Glow for all glass cards */
+        .action-card::after,
+        .feature-card::after,
+        .update-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                200px circle at var(--x, -1000px) var(--y, -1000px),
+                rgba(255, 255, 255, 0.08),
+                transparent 100%
+            );
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+        .action-card:hover::after,
+        .feature-card:hover::after,
+        .update-card:hover::after {
+            opacity: 1;
+        }
 
         /* Scroll Reveal */
         .reveal {
@@ -604,21 +631,21 @@
 
         document.querySelectorAll('.reveal:not(.active)').forEach(el => observer.observe(el));
 
-        // Cursor tracking for IP button
-        const ipBtn = document.querySelector('.ip-copy-btn');
-        if (ipBtn) {
-            ipBtn.addEventListener('mousemove', (e) => {
-                const rect = ipBtn.getBoundingClientRect();
+        // Cursor tracking for all glass elements
+        const glassElements = document.querySelectorAll('.ip-copy-btn, .action-card, .feature-card, .update-card');
+        glassElements.forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
-                ipBtn.style.setProperty('--x', `${x}px`);
-                ipBtn.style.setProperty('--y', `${y}px`);
+                el.style.setProperty('--x', `${x}px`);
+                el.style.setProperty('--y', `${y}px`);
             });
-            ipBtn.addEventListener('mouseleave', () => {
-                ipBtn.style.setProperty('--x', `-200px`);
-                ipBtn.style.setProperty('--y', `-200px`);
+            el.addEventListener('mouseleave', () => {
+                el.style.setProperty('--x', `-1000px`);
+                el.style.setProperty('--y', `-1000px`);
             });
-        }
+        });
     </script>
 </body>
 </html>
