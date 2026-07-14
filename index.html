@@ -109,6 +109,27 @@
             padding: 140px 48px 80px;
         }
 
+        /* Animated glow behind hero */
+        .hero-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -55%);
+            width: 900px; height: 600px;
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(52, 199, 89, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 40%, rgba(90, 200, 250, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 60%, rgba(191, 90, 242, 0.06) 0%, transparent 50%);
+            filter: blur(80px);
+            animation: glowDrift 12s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: -1;
+        }
+        @keyframes glowDrift {
+            0%   { transform: translate(-50%, -55%) scale(1) rotate(0deg); opacity: 0.7; }
+            50%  { transform: translate(-48%, -53%) scale(1.08) rotate(2deg); opacity: 1; }
+            100% { transform: translate(-52%, -57%) scale(0.95) rotate(-2deg); opacity: 0.7; }
+        }
+
         /* Status Pill */
         .status-pill {
             display: inline-flex; align-items: center; gap: 10px;
@@ -142,7 +163,10 @@
             line-height: 1.0;
             letter-spacing: -0.045em;
             margin-bottom: 20px;
-            color: #fff;
+            background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.25) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .hero-subtitle {
             font-size: 17px;
@@ -164,14 +188,45 @@
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(40px) saturate(180%);
             -webkit-backdrop-filter: blur(40px) saturate(180%);
-            border: 1px solid var(--border);
+            border: 1px solid transparent;
             box-shadow:
                 inset 0 0.5px 0 rgba(255, 255, 255, 0.12),
                 0 8px 32px rgba(0, 0, 0, 0.25);
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
+            overflow: visible;
         }
+        /* Animated shimmer border */
         .ip-copy-btn::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: inherit;
+            padding: 1px;
+            background: conic-gradient(
+                from var(--shimmer-angle, 0deg),
+                transparent 0%,
+                rgba(255, 255, 255, 0.15) 10%,
+                rgba(52, 199, 89, 0.3) 20%,
+                rgba(90, 200, 250, 0.2) 30%,
+                transparent 40%,
+                transparent 100%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            animation: shimmerSpin 4s linear infinite;
+            pointer-events: none;
+        }
+        @property --shimmer-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+        @keyframes shimmerSpin {
+            to { --shimmer-angle: 360deg; }
+        }
+        .ip-copy-btn::after {
             content: '';
             position: absolute; inset: 0;
             background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 50%);
@@ -179,12 +234,11 @@
             pointer-events: none;
         }
         .ip-copy-btn:hover {
-            transform: translateY(-2px);
-            border-color: var(--border-hover);
+            transform: translateY(-3px);
             box-shadow:
                 inset 0 0.5px 0 rgba(255, 255, 255, 0.15),
-                0 12px 40px rgba(0, 0, 0, 0.35),
-                0 0 0 1px rgba(255, 255, 255, 0.05);
+                0 16px 48px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(52, 199, 89, 0.06);
         }
         .ip-copy-btn:active { transform: translateY(1px) scale(0.99); }
         .ip-label {
@@ -451,6 +505,7 @@
     </nav>
 
     <div class="hero">
+        <div class="hero-glow"></div>
         <div class="status-pill" id="status-pill">
             <div class="pulse-dot" id="status-dot"></div>
             <span id="status-text">Connecting…</span>
