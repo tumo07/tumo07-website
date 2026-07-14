@@ -239,6 +239,31 @@
             letter-spacing: 0.5px;
         }
 
+        /* Notice banner */
+        .notice-banner {
+            margin-top: clamp(20px, 3vh, 32px);
+            padding: 14px 24px;
+            max-width: clamp(400px, 70vw, 600px);
+            border-radius: var(--radius-sm);
+            background: rgba(255, 149, 0, 0.06);
+            border: 1px solid rgba(255, 149, 0, 0.2);
+            font-size: 13px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+        }
+        .notice-banner strong {
+            color: #ff9500;
+            font-weight: 600;
+        }
+        .notice-banner a {
+            color: #5ac8fa;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .notice-banner a:hover { color: #fff; }
+
         /* Actions Grid */
         .actions-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); gap: clamp(12px, 1.5vw, 20px);
@@ -489,6 +514,11 @@
         </div>
 
         <div class="version-badge reveal active">Fabric 26.1.2</div>
+
+        <div class="notice-banner reveal active">
+            <strong>Registration is currently closed.</strong><br>
+            Contact us via <a href="https://www.facebook.com/tumo07" target="_blank">Facebook</a> to request access.
+        </div>
 
         <div class="actions-grid reveal">
             <a href="status.html" class="action-card">
