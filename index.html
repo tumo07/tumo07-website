@@ -341,8 +341,8 @@
         /* Patch Notes / Live Status */
         .patch-notes-section { padding: clamp(24px, 4vh, 48px) clamp(16px, 5vw, 64px) clamp(40px, 8vh, 80px); position: relative; z-index: 10; }
         .update-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: clamp(12px, 1.5vw, 20px);
-            max-width: 1600px; margin: 0 auto;
+            display: flex; flex-direction: column; gap: clamp(16px, 2vw, 24px);
+            max-width: 800px; margin: 0 auto;
         }
         .update-card {
             position: relative;
@@ -351,7 +351,8 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            box-shadow: inset 0 0.5px 0 rgba(255,255,255,0.06);
+            border-top: 2px solid var(--border); /* thicker top border for accent */
+            box-shadow: inset 0 0.5px 0 rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.15);
             transition: all 0.3s ease;
             overflow: hidden;
             display: flex; flex-direction: column;
@@ -361,15 +362,11 @@
             border-color: var(--border-hover);
             transform: translateY(-2px);
         }
-        .update-banner {
-            height: 140px; width: 100%;
-            background: linear-gradient(135deg, rgba(102,192,244,0.12) 0%, transparent 100%);
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            position: relative;
-        }
-        .update-banner.infra { background: linear-gradient(135deg, rgba(52, 199, 89, 0.12) 0%, transparent 100%); }
-        .update-banner.system { background: linear-gradient(135deg, rgba(90, 200, 250, 0.12) 0%, transparent 100%); }
-        .update-banner.design { background: linear-gradient(135deg, rgba(191, 90, 242, 0.12) 0%, transparent 100%); }
+        /* Top border accents based on category */
+        .update-card.infra { border-top-color: var(--green); }
+        .update-card.system { border-top-color: #5ac8fa; }
+        .update-card.design { border-top-color: #bf5af2; }
+        
         
         .update-content { padding: clamp(20px, 2.5vw, 28px) clamp(20px, 2vw, 24px); display: flex; flex-direction: column; flex: 1; }
         .update-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
@@ -532,8 +529,7 @@
             <p>The latest patch notes and news directly from the server team.</p>
         </div>
         <div class="update-grid">
-            <div class="update-card reveal">
-                <div class="update-banner infra"></div>
+            <div class="update-card infra reveal">
                 <div class="update-content">
                     <div class="update-meta">
                         <span class="update-tag">MAJOR UPDATE</span>
@@ -543,8 +539,7 @@
                     <p class="update-desc">We switched to Firebase for our live server status. The website now syncs perfectly with the server in real-time, so you always know when we're online.</p>
                 </div>
             </div>
-            <div class="update-card reveal" style="transition-delay: 0.06s;">
-                <div class="update-banner infra"></div>
+            <div class="update-card infra reveal" style="transition-delay: 0.06s;">
                 <div class="update-content">
                     <div class="update-meta">
                         <span class="update-tag">INFRASTRUCTURE</span>
@@ -554,8 +549,7 @@
                     <p class="update-desc">Upgraded the backend database for faster status logs and less polling delay.</p>
                 </div>
             </div>
-            <div class="update-card reveal" style="transition-delay: 0.12s;">
-                <div class="update-banner system"></div>
+            <div class="update-card system reveal" style="transition-delay: 0.12s;">
                 <div class="update-content">
                     <div class="update-meta">
                         <span class="update-tag">SYSTEM</span>
@@ -565,8 +559,7 @@
                     <p class="update-desc">Added new hooks to safely reboot the server during maintenance without triggering the crash auto-reboot loops.</p>
                 </div>
             </div>
-            <div class="update-card reveal" style="transition-delay: 0.18s;">
-                <div class="update-banner design"></div>
+            <div class="update-card design reveal" style="transition-delay: 0.18s;">
                 <div class="update-content">
                     <div class="update-meta">
                         <span class="update-tag">DESIGN</span>
