@@ -52,8 +52,8 @@
         nav {
             position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
             z-index: 100;
-            width: calc(100% - 32px); max-width: 900px;
-            padding: 14px 28px;
+            width: calc(100% - 48px); max-width: 1400px;
+            padding: 14px 32px;
             display: flex; justify-content: space-between; align-items: center;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(40px) saturate(200%);
@@ -83,9 +83,9 @@
         /* Container */
         .container {
             position: relative; z-index: 10;
-            max-width: 900px;
+            max-width: 1200px;
             margin: 120px auto 80px;
-            padding: 0 24px;
+            padding: 0 48px;
         }
 
         .header {
@@ -175,14 +175,19 @@
         /* Footer */
         footer {
             position: relative; z-index: 10;
-            padding: 32px 24px;
+            padding: 32px 48px;
             border-top: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
-            max-width: 900px; margin: 0 auto;
+            max-width: 1600px; margin: 0 auto;
             color: var(--text-secondary); font-size: 12px;
         }
         .footer-logo { font-weight: 800; color: var(--text); font-size: 16px; }
         .footer-logo span { color: var(--green); }
+
+        @media (max-width: 1024px) {
+            .container { padding: 0 32px; }
+            footer { padding: 32px; }
+        }
 
         @media (max-width: 600px) {
             nav {
@@ -191,8 +196,11 @@
                 flex-direction: column; gap: 10px;
             }
             .nav-links { flex-wrap: wrap; justify-content: center; gap: 4px; }
+            .container { margin-top: 100px; padding: 0 16px; }
+            .header h1 { font-size: 32px; letter-spacing: -0.02em; }
+            .header p { font-size: 14px; }
             .log-item { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px 20px; }
-            footer { flex-direction: column; gap: 12px; text-align: center; }
+            footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 16px; }
         }
     </style>
 </head>

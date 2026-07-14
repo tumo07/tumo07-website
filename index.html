@@ -67,8 +67,8 @@
         nav {
             position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
             z-index: 100;
-            width: calc(100% - 32px); max-width: 1100px;
-            padding: 14px 28px;
+            width: calc(100% - 48px); max-width: 1400px;
+            padding: 14px 32px;
             display: flex; justify-content: space-between; align-items: center;
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(40px) saturate(200%);
@@ -106,7 +106,7 @@
             min-height: 100vh;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             text-align: center;
-            padding: 140px 24px 80px;
+            padding: 140px 48px 80px;
         }
 
         /* Status Pill */
@@ -224,7 +224,7 @@
         /* Actions Grid */
         .actions-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
-            max-width: 640px; margin: 56px auto 0;
+            max-width: 900px; margin: 56px auto 0;
             width: 100%;
         }
         .action-card {
@@ -286,10 +286,10 @@
         }
 
         /* Features */
-        .features { padding: 40px 24px 80px; position: relative; z-index: 10; }
+        .features { padding: 40px 48px 80px; position: relative; z-index: 10; }
         .features-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+            max-width: 1400px; margin: 0 auto;
         }
         .feature-card {
             padding: 32px 28px;
@@ -319,10 +319,10 @@
         }
 
         /* Patch Notes / Live Status */
-        .patch-notes-section { padding: 40px 24px 80px; position: relative; z-index: 10; }
+        .patch-notes-section { padding: 40px 48px 80px; position: relative; z-index: 10; }
         .update-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;
-            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
+            max-width: 1400px; margin: 0 auto;
         }
         .update-card {
             padding: 28px 24px;
@@ -370,10 +370,10 @@
 
         /* Footer */
         footer {
-            padding: 32px 24px; position: relative; z-index: 10;
+            padding: 32px 48px; position: relative; z-index: 10;
             border-top: 1px solid var(--border);
             display: flex; justify-content: space-between; align-items: center;
-            max-width: 1100px; margin: 0 auto;
+            max-width: 1400px; margin: 0 auto;
             color: var(--text-secondary); font-size: 12px;
         }
         .footer-logo { font-weight: 800; color: var(--text); font-size: 16px; }
@@ -390,6 +390,16 @@
             to   { opacity: 1; transform: translateY(0); }
         }
 
+        /* Tablet */
+        @media (max-width: 1024px) {
+            .hero { padding: 140px 32px 60px; }
+            .features { padding: 40px 32px 80px; }
+            .patch-notes-section { padding: 40px 32px 80px; }
+            .features-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+            .update-grid { gap: 16px; }
+            footer { padding: 32px; }
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             nav {
@@ -400,12 +410,27 @@
             .nav-links { flex-wrap: wrap; justify-content: center; gap: 4px; }
             .social-links { border-left: none; padding-left: 0; margin-left: 0; }
             .hero { padding: 160px 20px 60px; }
-            .hero-title { font-size: clamp(40px, 12vw, 72px); }
+            .hero-title { font-size: clamp(36px, 12vw, 64px); }
+            .hero-subtitle { font-size: 15px; margin-bottom: 36px; }
             .ip-copy-btn { padding: 20px 32px; }
-            .ip-value { font-size: 22px; }
+            .ip-value { font-size: 20px; }
+            .ip-label { font-size: 10px; }
+            .features { padding: 40px 16px 60px; }
             .features-grid { grid-template-columns: 1fr; }
-            .actions-grid { grid-template-columns: 1fr; }
-            footer { flex-direction: column; gap: 12px; text-align: center; }
+            .patch-notes-section { padding: 40px 16px 60px; }
+            .actions-grid { grid-template-columns: 1fr; max-width: 100%; }
+            .action-card { padding: 22px 20px; }
+            .section-header h2 { font-size: 28px; }
+            .section-header p { font-size: 14px; }
+            footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 16px; }
+        }
+
+        /* Small phones */
+        @media (max-width: 400px) {
+            .hero-title { font-size: 32px; }
+            .ip-value { font-size: 18px; }
+            .ip-copy-btn { padding: 16px 24px; }
+            .status-pill { font-size: 11px; padding: 6px 14px; }
         }
     </style>
 </head>
