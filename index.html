@@ -13,7 +13,7 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- Preloads for instant rendering -->
-    <link rel="preload" href="assets/hero_bg.webp" as="image">
+    <link rel="preload" href="assets/hero_bg.webp" as="image" fetchpriority="high">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
     
     <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -545,10 +545,10 @@
     </nav>
 
     <div class="hero">
-        <h1 class="hero-title reveal active">Beyond Vanilla.</h1>
-        <p class="hero-subtitle reveal active">A carefully crafted Fabric server built for massive builds and a seamless multiplayer experience.</p>
+        <h1 class="hero-title">Beyond Vanilla.</h1>
+        <p class="hero-subtitle">A carefully crafted Fabric server built for massive builds and a seamless multiplayer experience.</p>
 
-        <div class="ip-copy-wrapper reveal active">
+        <div class="ip-copy-wrapper">
             <div class="copy-toast" id="copy-toast">Copied!</div>
             <div class="ip-copy-btn" onclick="copyIP()">
                 <div class="ip-text">
@@ -561,14 +561,14 @@
             </div>
         </div>
 
-        <div class="version-badge reveal active">Minecraft Version: 26.1.2 (Fabric)</div>
+        <div class="version-badge">Minecraft Version: 26.1.2 (Fabric)</div>
 
-        <div class="notice-banner reveal active">
+        <div class="notice-banner">
             <strong>Registration is currently closed.</strong><br>
             Contact us via <a href="https://www.facebook.com/tumo07" target="_blank">Facebook</a> to request access.
         </div>
 
-        <div class="actions-grid reveal">
+        <div class="actions-grid">
             <a href="status.html" class="action-card">
                 <span class="action-title">Server Status History</span>
                 <div class="action-icon">→</div>
