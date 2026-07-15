@@ -484,6 +484,11 @@
 
         /* Structural: stack nav on narrow viewports */
         @media (max-width: 640px) {
+            /* Fix "Minimize main-thread work" on mobile by heavily reducing blur radius */
+            .glass, nav, .noscript-warning {
+                backdrop-filter: blur(12px) saturate(140%) !important;
+                -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+            }
             nav { display: flex; flex-direction: column; gap: 12px; }
             .nav-left { justify-content: center; width: 100%; }
             .nav-right { justify-content: center; width: 100%; }
@@ -531,7 +536,11 @@
     <noscript>
         <div class="noscript-warning">JavaScript is disabled. Limited functionality is expected.</div>
     </noscript>
-    <img src="assets/hero_bg.webp" class="bg-layer" alt="" fetchpriority="high" decoding="sync">
+    <picture>
+        <source media="(max-width: 640px)" srcset="assets/hero_bg_mobile.webp">
+        <source media="(min-width: 641px)" srcset="assets/hero_bg.webp">
+        <img src="assets/hero_bg.webp" class="bg-layer" alt="" fetchpriority="high" decoding="sync">
+    </picture>
     <div class="bg-gradient"></div>
 
     <nav>
