@@ -13,7 +13,8 @@
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- Preloads for instant rendering -->
-    <link rel="preload" href="assets/hero_bg.webp" as="image" fetchpriority="high">
+    <link rel="preload" href="assets/hero_bg_mobile.webp" as="image" media="(max-width: 640px)" fetchpriority="high">
+    <link rel="preload" href="assets/hero_bg.webp" as="image" media="(min-width: 641px)" fetchpriority="high">
     <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" as="style">
     
     <link rel="icon" type="image/png" href="assets/favicon.png">
