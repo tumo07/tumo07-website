@@ -88,6 +88,8 @@
                 inset 0 0.5px 0 rgba(255, 255, 255, 0.12),
                 0 4px 24px rgba(0, 0, 0, 0.2);
         }
+        .nav-left { display: flex; align-items: center; gap: clamp(12px, 2vw, 24px); }
+        .nav-right { display: flex; justify-content: flex-end; }
         .logo {
             font-family: 'Inter', sans-serif;
             font-size: 20px; font-weight: 800;
@@ -465,7 +467,9 @@
 
         /* Structural: stack nav on narrow viewports */
         @media (max-width: 640px) {
-            nav { display: flex; flex-direction: column; gap: 8px; }
+            nav { display: flex; flex-direction: column; gap: 12px; }
+            .nav-left { justify-content: center; width: 100%; }
+            .nav-right { justify-content: center; width: 100%; }
             .nav-links { flex-wrap: wrap; justify-content: center; gap: 4px; }
             .social-links { border-left: none; padding-left: 0; margin-left: 0; }
             .hero { padding-top: clamp(130px, 22vh, 180px); }
@@ -508,7 +512,7 @@
     <div class="bg-gradient"></div>
 
     <nav>
-        <div class="nav-left" style="display: flex; align-items: center; gap: clamp(12px, 2vw, 24px);">
+        <div class="nav-left">
             <div class="logo">TUMO<span>07</span></div>
             <div class="status-pill" id="status-pill">
                 <!-- JS Enabled version -->
@@ -522,7 +526,7 @@
         <div class="nav-middle" id="nav-banner">
             <!-- Reserved for important banner -->
         </div>
-        <div class="nav-right" style="display: flex; justify-content: flex-end;">
+        <div class="nav-right">
             <div class="nav-links">
                 <a href="status.html">Live Status</a>
                 <a href="https://map.tumo07.io.vn" target="_blank">Live Map</a>
