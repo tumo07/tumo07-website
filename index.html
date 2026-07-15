@@ -454,12 +454,28 @@
             opacity: 1;
         }
 
-        /* Scroll Reveal */
+        /* Scroll Reveal (Only hide if JS is enabled) */
         .js-enabled .reveal {
             opacity: 0; transform: translateY(24px);
             transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .js-enabled .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Instant Pure CSS Reveal (For Hero - No JS delay) */
+        @keyframes heroFadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .hero-animate {
+            animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(16px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -545,10 +561,10 @@
     </nav>
 
     <div class="hero">
-        <h1 class="hero-title">Beyond Vanilla.</h1>
-        <p class="hero-subtitle">A carefully crafted Fabric server built for massive builds and a seamless multiplayer experience.</p>
+        <h1 class="hero-title hero-animate">Beyond Vanilla.</h1>
+        <p class="hero-subtitle hero-animate delay-1">A carefully crafted Fabric server built for massive builds and a seamless multiplayer experience.</p>
 
-        <div class="ip-copy-wrapper">
+        <div class="ip-copy-wrapper hero-animate delay-2">
             <div class="copy-toast" id="copy-toast">Copied!</div>
             <div class="ip-copy-btn" onclick="copyIP()">
                 <div class="ip-text">
@@ -561,14 +577,14 @@
             </div>
         </div>
 
-        <div class="version-badge">Minecraft Version: 26.1.2 (Fabric)</div>
+        <div class="version-badge hero-animate delay-3">Minecraft Version: 26.1.2 (Fabric)</div>
 
-        <div class="notice-banner">
+        <div class="notice-banner hero-animate delay-4">
             <strong>Registration is currently closed.</strong><br>
             Contact us via <a href="https://www.facebook.com/tumo07" target="_blank">Facebook</a> to request access.
         </div>
 
-        <div class="actions-grid">
+        <div class="actions-grid hero-animate delay-5">
             <a href="status.html" class="action-card">
                 <span class="action-title">Server Status History</span>
                 <div class="action-icon">→</div>
