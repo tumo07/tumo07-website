@@ -455,11 +455,11 @@
         }
 
         /* Scroll Reveal */
-        .reveal {
+        .js-enabled .reveal {
             opacity: 0; transform: translateY(24px);
             transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .js-enabled .reveal.active { opacity: 1; transform: translateY(0); }
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(16px); }
             to   { opacity: 1; transform: translateY(0); }
