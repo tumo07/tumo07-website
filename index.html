@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script>document.documentElement.classList.add('js-enabled');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TUMO07 — High Performance Fabric</title>
@@ -473,9 +474,30 @@
             .hero { min-height: auto; padding-top: 100px; padding-bottom: 40px; }
             .status-pill { margin-bottom: 20px; }
         }
+
+        /* No-JS Fallbacks */
+        .js-only { display: none !important; }
+        .js-enabled .js-only { display: flex !important; }
+        .js-enabled span.js-only { display: inline !important; }
+        .js-enabled .no-js-only { display: none !important; }
+
+        .noscript-warning {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(255, 69, 58, 0.9);
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            font-weight: 600;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
     </style>
 </head>
 <body>
+    <noscript>
+        <div class="noscript-warning">JavaScript is disabled. Limited functionality is expected.</div>
+    </noscript>
     <div class="bg-layer"></div>
     <div class="bg-gradient"></div>
 
@@ -493,8 +515,12 @@
 
     <div class="hero">
         <div class="status-pill" id="status-pill">
-            <div class="pulse-dot" id="status-dot"></div>
-            <span id="status-text">Connecting…</span>
+            <!-- JS Enabled version -->
+            <div class="pulse-dot js-only" id="status-dot"></div>
+            <span class="js-only" id="status-text">Connecting.</span>
+            <!-- No JS version -->
+            <div class="pulse-dot no-js-only" style="background: var(--red);"></div>
+            <span class="no-js-only">Status Unknown (Requires JS)</span>
         </div>
 
         <h1 class="hero-title reveal active">Beyond Vanilla.</h1>
