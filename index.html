@@ -464,12 +464,12 @@
         
         /* Instant Pure CSS Reveal (For Hero - No JS delay) */
         @keyframes heroFadeUp {
-            from { opacity: 0; transform: translateY(24px); }
+            from { opacity: 0.01; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
         }
         .hero-animate {
             animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0;
+            opacity: 0.01;
         }
         .delay-1 { animation-delay: 0.1s; }
         .delay-2 { animation-delay: 0.2s; }
@@ -562,7 +562,7 @@
     </nav>
 
     <div class="hero">
-        <h1 class="hero-title">Beyond Vanilla.</h1>
+        <h1 class="hero-title hero-animate">Beyond Vanilla.</h1>
         <p class="hero-subtitle hero-animate delay-1">A carefully crafted Fabric server built for massive builds and a seamless multiplayer experience.</p>
 
         <div class="ip-copy-wrapper hero-animate delay-2">
