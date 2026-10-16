@@ -105,6 +105,24 @@
             line-height: 1.6;
         }
 
+        /* Notice banner */
+        .notice-banner {
+            margin: 0 auto 32px auto;
+            padding: 14px 24px;
+            max-width: 600px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 149, 0, 0.08);
+            border: 1px solid rgba(255, 149, 0, 0.35);
+            font-size: 13px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+            text-align: center;
+        }
+        .notice-banner strong {
+            color: #ff9500;
+            font-weight: 600;
+        }
+
         /* Log Container */
         .log-container {
             border-radius: var(--radius);
@@ -207,6 +225,11 @@
         <div class="header">
             <h1>Telemetry Logs</h1>
             <p>Real-time server history powered by Firebase.</p>
+        </div>
+
+        <div class="notice-banner">
+            <strong style="color: #ff9500;">⚠️ Server BIOS Instability Detected</strong><br>
+            <span>Currently under investigation. In-game gameplay and player data are unaffected, but please expect intermittent random server offline periods until resolved.</span>
         </div>
 
         <div class="log-container" id="log-list">
